@@ -1,33 +1,38 @@
 // Java-University-Lab3
 
-import java.util.Scanner;
+public class SavingsAccount extends BankAccount {
 
-public class BankMachine {
-
-	public static void main(String[] args) {
-
-		BankAccount newAcc;
-
-		Scanner input = new Scanner(System.in);
-
-		System.out.println("Enter your desired account type: 'c' for checking or 's' for savings.");
-		String accountType = input.next();
-
-		if (accountType.equals("c")) {
-			newAcc = new CheckingAccount(100);
-		} else if (accountType.equals("s")) {
-			newAcc = new SavingsAccount(100, 0.14);
-		} else {
-			System.out.println("Invalid account type.");
-			return; // If bad input, then end program.
-		}
-
-		String accountInfo = newAcc.toString();
-
-		System.out.println("Your new account has been successfully created.");
-		System.out.println(accountInfo);
-
-		System.out.println("Transactions: " + (CheckingAccount)newAcc.getTransactionCount());
-		System.out.println("InterestRate: " + (SavingsAccount)newAcc.getInterestRate());
+	/* Additional instance variable on the inherited variables from BankAccount class */
+	private double interestRate;
+	
+	/*Constructor */
+	public SavingsAccount(double initialAmount, double rate) {
+		super(initialAmount);
+		interestRate = rate;
 	}
+	
+	/*Getter method to get Interest Rate */
+	public double getInterestRate() {
+		return interestRate;
+	}
+	
+	/*Method to calculate Interest*/
+	public void calculateInterest() {
+		deposit(getBalance() * interestRate);
+	}
+	
+	/*toString Method*/
+	public String toString() {
+		return("SavingsAccount: balance $" + getBalance() + ", interest rate " + getInterestRate());
+	}
+	
+	/*Main method*/
+	public static void main(String[] args) {
+        SavingsAccount myAccount = new SavingsAccount(100.0,0.15);
+	myAccount.calculateInterest();
+	System.out.println(myAccount.toString());
+	
+	}
+	
+	
 }
